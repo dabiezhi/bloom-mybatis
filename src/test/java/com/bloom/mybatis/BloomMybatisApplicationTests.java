@@ -1,5 +1,6 @@
-package com.bloom.bloommybatis;
+package com.bloom.mybatis;
 
+import com.bloom.Test;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
