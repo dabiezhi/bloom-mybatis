@@ -1,13 +1,12 @@
 package com.bloom.mybatis.executor;
 
+import com.bloom.model.Blog;
+import com.bloom.mybatis.datasource.pooled.PooledDataSourceFactory;
 import com.bloom.mybatis.mapping.MappedStatement;
 import com.bloom.mybatis.parsing.SQLTokenParser;
-import com.bloom.mybatis.pool.BloomDataSource;
 import com.bloom.mybatis.session.Configuration;
-import com.bloom.mybatis.session.SqlSession;
-import com.sun.deploy.util.ReflectionUtil;
-import org.springframework.util.ReflectionUtils;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,11 +19,11 @@ import java.util.List;
  */
 public class Executor {
 
-    private final BloomDataSource bloomDataSource;
+    private final DataSource dataSource;
 
     public Executor(Configuration configuration) {
         //初始化数据源
-        this.bloomDataSource = BloomDataSource.getInstance(configuration.getEnvironment());
+        this.dataSource = new PooledDataSourceFactory(configuration.getEnvironment()).getDataSource();
     }
 
     public <T> List<T> query(MappedStatement ms, Object parameter) {
@@ -34,7 +33,7 @@ public class Executor {
         ResultSet resultSet = null;
 
         try {
-            connection = bloomDataSource.getConnection();
+            connection = dataSource.getConnection();
             //将sql中的#{id,jdbcType=INTEGER}替换成？
             preparedStatement = connection.prepareStatement(SQLTokenParser.parse(ms.getSql()));
             preparedStatement.setInt(1, (Integer) parameter);
@@ -72,7 +71,10 @@ public class Executor {
                 Object entity = clazz.newInstance();
                 //把从数据库查询的结果集字段的数据要设置到entity对象中去
 //                ReflectionUtil.setProToBeanFromResult(entity,resultSet);
-                resultList.add((T) entity);
+                Blog blog = new Blog();
+                blog.setId(resultSet.getInt(1));
+                blog.setTitle(resultSet.getString(2));
+                resultList.add((T) blog);
             }
         } catch (Exception e) {
             e.printStackTrace();

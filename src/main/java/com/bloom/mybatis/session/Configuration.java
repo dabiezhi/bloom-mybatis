@@ -25,4 +25,6 @@ public class Configuration {
     public Map<String, MappedStatement> getMappedStatements() {
         return mappedStatements;
     }
+
+
 }

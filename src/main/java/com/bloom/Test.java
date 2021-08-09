@@ -35,7 +35,6 @@ public class Test {
         Blog blog = blogMapper.selectBlog(1);
 
         //第六步：获取Mapper接口对象
-//        System.out.println("--->查询" + uUerInfo.getId() + "--" + uUerInfo.getPhone() + "--" + uUerInfo.getEmail());
-        int i = 0;
+        System.out.println("--->查询【" + blog.getId() + "," + blog.getTitle()+"】");
     }
 }
