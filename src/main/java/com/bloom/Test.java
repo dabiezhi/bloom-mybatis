@@ -1,11 +1,14 @@
 package com.bloom;
 
 
+import com.bloom.mapper.BlogMapper;
+import com.bloom.model.Blog;
 import com.bloom.mybatis.session.SqlSession;
 import com.bloom.mybatis.session.SqlSessionFactory;
 import com.bloom.mybatis.session.SqlSessionFactoryBuilder;
 
 import java.io.InputStream;
+import java.util.List;
 
 public class Test {
 
@@ -26,12 +29,13 @@ public class Test {
         SqlSession session = sqlSessionFactory.openSession();
 
         //第四步：获取Mapper接口对象
-//        UUserInfoMapper uUserInfoMapper = session.getMapper(UUserInfoMapper.class);
+        BlogMapper blogMapper = session.getMapper(BlogMapper.class);
 
         //第五步：获取Mapper接口对象
-//        UUerInfo uUerInfo = uUserInfoMapper.selectByPrimaryKey(1);
+        Blog blog = blogMapper.selectBlog(1);
 
         //第六步：获取Mapper接口对象
 //        System.out.println("--->查询" + uUerInfo.getId() + "--" + uUerInfo.getPhone() + "--" + uUerInfo.getEmail());
+        int i = 0;
     }
 }

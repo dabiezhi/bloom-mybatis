@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface BlogMapper {
 
-    List<Blog> selectBlog(Integer id);
+    Blog selectBlog(Integer id);
 }
